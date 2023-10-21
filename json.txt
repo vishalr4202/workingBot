@@ -1,0 +1,29 @@
+{
+    "entry_type":"PE",
+    "tradingsymbol": "ICICIBANK",
+    "date":"23713",
+    "exchange": "NSE",
+    "transaction_type": "BUY",
+    "quantity": "50",
+    "order":  "{{strategy.order.action}}",
+    "price": {{close}},
+    "email": ["mvsranka@gmail.com","nitin.prabhakar8@gmail.com"],
+    "profitPrice":"10",
+    "lossPrice":"7"
+}
+
+updated JSON with primary mail id to pick ticker instrument from valid order
+
+{
+    "tradingsymbol": "ICICIBANK",
+    "date":"23713",
+    "exchange": "NSE",
+    "transaction_type": "BUY",
+    "quantity": "50",
+    "order":  "{{strategy.order.action}}",
+    "price": {{close}},
+    "email": ["mvsranka@gmail.com","abhis.s2009@gmail.com","nitin.prabhakar8@gmail.com"],
+    "primary":"abhis.s2009@gmail.com",
+    "profitPrice":"10",
+    "lossPrice":"7"
+}
