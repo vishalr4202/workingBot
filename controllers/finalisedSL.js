@@ -39,6 +39,7 @@ exports.executeSL = async (req, res, next) => {
 
     if((order == 'buy' && entry_type == 'CE' && ordered == false) || (order == 'sell' && entry_type=='PE' &&  ordered == false) || (exchange=='MCX') ||(entry_type == undefined  && exchange == 'NSE' && order=='buy' && ordered == false)){
     console.log(ordered,"sets")
+    console.log(new Date(),"time")
     const validUsers = []
     for (let i = 0; i < email.length; i++) {
         let valid = await Helper.getValidUsers(email[i], exchange, symbol)
