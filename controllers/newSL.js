@@ -268,3 +268,10 @@ exports.placeOrders = async (req, res, next) => {
       });
  }
 }
+
+exports.getDummy = (req,res,next) => {
+    console.log(new Date(),"time")
+    res.status(200).json({
+        message: new Date(),
+      });
+}
