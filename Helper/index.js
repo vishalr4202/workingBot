@@ -162,3 +162,43 @@ module.exports.exitAllUserOrders = async function (users, exchange, symbol, quan
         })
     return status
 }
+module.exports.placeAllOptionsUserOrders = async function(users, exchange, symbol, quantity,transaction_type) {
+    try {
+        const data = await User.findByEmailId(users?.email)
+        const checkStatus = await placeIndividualOptionsTrade(data, exchange, symbol, quantity,transaction_type)
+        return checkStatus
+    }
+    catch (e) {
+        return e;
+    }
+}
+
+async function placeIndividualOptionsTrade(data, exchange, symbol, quantity,transaction_type) {
+    const status = await (async function (data) {
+        kc = new KiteConnect({
+            api_key: data?.api_key,
+        });
+    })(data)
+        .then(resp => {
+            kc.setAccessToken(data?.access_token);
+        })
+        .then(async (resp) => {
+          return await kc
+                .placeOrder('regular', {
+                    exchange: exchange,
+                    tradingsymbol: symbol,
+                    transaction_type: transaction_type,
+                    quantity: quantity,
+                    product: exchange == 'NSE' ? "MIS" : "NRML",
+                    order_type: "MARKET",
+                })
+                .then(result => {
+                    console.log(result, "trade Data")
+                    return data?.email
+                })
+        }).catch(err => {
+            console.log(err, "trade Error")
+            return err
+        })
+    return status
+}

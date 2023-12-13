@@ -27,3 +27,34 @@ updated JSON with primary mail id to pick ticker instrument from valid order
     "profitPrice":"10",
     "lossPrice":"7"
 }
+
+for options endpoint
+market_position, order_action
+long ,buy == ce buy 
+flat, sell = ce sell
+short,sell = pe buy
+flat,buy = pe sell
+for postman
+{
+    "market_position":"short",  
+    "order_action":"sell",
+    "order_price":20824,
+    "quantity":"50",
+    "entry_price": 20824,
+    "email":["abhis.s2009@gmail.com"],
+    "tradingsymbol": "NIFTY",
+    "date":"23D14",
+    "exchange": "NFO"
+}
+for tradingview
+{
+   "market_position": "{{strategy.market_position}}",  
+    "order_action":"{{strategy.order.action}}",
+    "order_price":"{{strategy.order.price}},
+    "quantity":"50",
+    "entry_price": "{{strategy.order.alert_message}},
+    "email":["abhis.s2009@gmail.com"],
+    "tradingsymbol": "{{ticker}}",
+    "date":"23D14",
+    "exchange": "NFO"  
+}
