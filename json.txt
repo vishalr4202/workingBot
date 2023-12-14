@@ -58,3 +58,12 @@ for tradingview
     "date":"23D14",
     "exchange": "NFO"  
 }
+
+
+Binance : 
+{
+        "order_action": "{{strategy.order.action}}",
+        "entry_price":"{{strategy.order.alert_message}}",
+        "order_contracts": "{{strategy.order.contracts}}",
+        "order_price": "{{strategy.order.price}}",
+}
