@@ -59,6 +59,32 @@ for tradingview
     "exchange": "NFO"  
 }
 
+FS_options:
+{
+    "market_position":"short",  
+    "order_action":"sell",
+    "order_price":47000,
+    "quantity":"45",
+    "entry_price": 47000,
+    "close":47000,
+    "email":["vishalr4202@gmail.com","abhilashmrao2@gmail.com"],
+    "tradingsymbol": "BANKNIFTY",
+    "date":"28DEC23",
+    "exchange": "NFO"
+}
+
+{
+   "market_position": "{{strategy.market_position}}",  
+    "order_action":"{{strategy.order.action}}",
+    "order_price":"{{strategy.order.price}},
+    "quantity":"50",
+    "entry_price": "{{strategy.order.alert_message}},
+    "email":["abhis.s2009@gmail.com"],
+    "tradingsymbol": "{{ticker}}",
+    "close" : "{{close}}"
+    "date":"23D14",
+    "exchange": "NFO"  
+}
 
 Binance : 
 {
