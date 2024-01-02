@@ -33,7 +33,7 @@ exports.placeFSOPtions = async (req, res, next) => {
 
     if (market_position == 'short' && order_action == 'sell' && exchange == 'NFO') {
         newPrice = Math.round(Math.floor(order_price + 200) / 100) * 100;
-        symbol = tradingsymbol + date  + "P" + + newPrice;
+        symbol = tradingsymbol + date  + "P" + newPrice;
         transaction_type = 'B'
     }
     if (market_position == 'flat' && order_action == 'buy' && exchange == 'NFO') {
@@ -44,7 +44,7 @@ exports.placeFSOPtions = async (req, res, next) => {
         }
        
         // symbol = tradingsymbol + date + newPrice + "PE";
-        symbol = tradingsymbol + date  + "P" + + newPrice;
+        symbol = tradingsymbol + date  + "P" + newPrice;
         transaction_type = 'S'
     }
     if (market_position == 'long' && order_action == 'buy' && exchange == 'NFO') {
