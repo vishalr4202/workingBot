@@ -30,33 +30,35 @@ exports.placeFSOPtions = async (req, res, next) => {
 
     var symbol;
     var transaction_type;
+    console.log(order_price)
 
     if (market_position == 'short' && order_action == 'sell' && exchange == 'NFO') {
-        newPrice = Math.round(Math.floor(order_price + 200) / 100) * 100;
-        symbol = tradingsymbol + date  + "P" + + newPrice;
+        newPrice = Math.round(Math.floor(Number(order_price) + 200) / 100) * 100;
+        symbol = tradingsymbol + date  + 'P'  + newPrice;
         transaction_type = 'B'
+
     }
     if (market_position == 'flat' && order_action == 'buy' && exchange == 'NFO') {
         if(entry_price !== 'NAN'){
-            newPrice = Math.round(Math.floor(entry_price + 200) / 100) * 100;
+            newPrice = Math.round(Math.floor(Number(entry_price) + 200) / 100) * 100;
         } else{
-            newPrice = Math.round(Math.floor(close + 200) / 100) * 100;
+            newPrice = Math.round(Math.floor(Number(close) + 200) / 100) * 100;
         }
        
         // symbol = tradingsymbol + date + newPrice + "PE";
-        symbol = tradingsymbol + date  + "P" + + newPrice;
+        symbol = tradingsymbol + date  + 'P' + newPrice;
         transaction_type = 'S'
     }
     if (market_position == 'long' && order_action == 'buy' && exchange == 'NFO') {
-        newPrice = Math.round(Math.floor(order_price - 200) / 100) * 100;
+        newPrice = Math.round(Math.floor(Number(order_price) - 200) / 100) * 100;
         symbol = tradingsymbol + date + 'C'+ newPrice ;
         transaction_type = 'B'
     }
     if (market_position == 'flat' && order_action == 'sell' && exchange == 'NFO') {
         if(entry_price !== 'NAN'){
-        newPrice = Math.round(Math.floor(entry_price - 200) / 100) * 100;
+        newPrice = Math.round(Math.floor(Number(entry_price) - 200) / 100) * 100;
         }else{
-            newPrice = Math.round(Math.floor(close - 200) / 100) * 100;
+            newPrice = Math.round(Math.floor(Number(close) - 200) / 100) * 100;
         }
         symbol = tradingsymbol + date + 'C'+ newPrice ;
         transaction_type = 'S'
