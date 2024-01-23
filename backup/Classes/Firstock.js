@@ -571,29 +571,45 @@ class Firstock extends AFirstock {
     });
   }
 
-  getQuoteltp({ exchange, token }, callBack) {
-    Commonfunctions.readData((err, data) => {
-      if (err) {
-        callBack(err, null);
-      } else {
-        const userId = data.userId || this.userId;
-        const jKey = data.token || this.token;
-        axiosInterceptor
-          .post(`getQuote/ltp`, {
-            userId,
-            jKey,
-            exchange,
-            token,
-          })
-          .then((response) => {
-            const { data } = response;
+  getQuoteltp({ exchange, token,userId,jKey }, callBack) {
+    // Commonfunctions.readData((err, data) => {
+    //   if (err) {
+    //     callBack(err, null);
+    //   } else {
+    //     const userId = data.userId || this.userId;
+    //     const jKey = data.token || this.token;
+    //     axiosInterceptor
+    //       .post(`getQuote/ltp`, {
+    //         userId,
+    //         jKey,
+    //         exchange,
+    //         token,
+    //       })
+    //       .then((response) => {
+    //         const { data } = response;
 
-            callBack(null, data);
-          })
-          .catch((error) => {
-            callBack(handleError(error), null);
-          });
-      }
+    //         callBack(null, data);
+    //       })
+    //       .catch((error) => {
+    //         callBack(handleError(error), null);
+    //       });
+    //   }
+    // });
+
+    axiosInterceptor
+    .post(`getQuote/ltp`, {
+      userId,
+      jKey,
+      exchange,
+      token,
+    })
+    .then((response) => {
+      const { data } = response;
+
+      callBack(null, data);
+    })
+    .catch((error) => {
+      callBack(handleError(error), null);
     });
   }
 
@@ -622,28 +638,42 @@ class Firstock extends AFirstock {
 
   // ######################################################################################################################################
 
-  searchScripts({ stext }, callBack) {
-    Commonfunctions.readData((err, data) => {
-      if (err) {
-        callBack(err, null);
-      } else {
-        const userId = data.userId || this.userId;
-        const jKey = data.token || this.token;
-        axiosInterceptor
-          .post(`searchScrips`, {
-            userId,
-            jKey,
-            stext,
-          })
-          .then((response) => {
-            const { data } = response;
+  searchScripts({ stext, userId,jKey}, callBack) {
+    // Commonfunctions.readData((err, data) => {
+    //   if (err) {
+    //     callBack(err, null);
+    //   } else {
+    //     const userId = data.userId || this.userId;
+    //     const jKey = data.token || this.token;
+    //     axiosInterceptor
+    //       .post(`searchScrips`, {
+    //         userId,
+    //         jKey,
+    //         stext,
+    //       })
+    //       .then((response) => {
+    //         const { data } = response;
 
-            callBack(null, data);
-          })
-          .catch((error) => {
-            callBack(handleError(error), null);
-          });
-      }
+    //         callBack(null, data);
+    //       })
+    //       .catch((error) => {
+    //         callBack(handleError(error), null);
+    //       });
+    //   }
+    // });
+    axiosInterceptor
+    .post(`searchScrips`, {
+      userId,
+      jKey,
+      stext,
+    })
+    .then((response) => {
+      const { data } = response;
+
+      callBack(null, data);
+    })
+    .catch((error) => {
+      callBack(handleError(error), null);
     });
   }
   getSecurityInfo({ exchange, token }, callBack) {
@@ -1299,20 +1329,28 @@ class Firstock extends AFirstock {
       throw "Websocket 1 and 2 are allowed";
     }
   }
-  getWebSocketDetails(callBack) {
-    Commonfunctions.readData((err, data) => {
-      if (err) {
-        callBack(err, null);
-      }
-      const params = {
-        t: "c",
-        uid: data.userId,
-        actid: data.userId,
-        susertoken: data.token,
-        source: "API",
-      };
-      callBack(null, JSON.stringify(params));
-    });
+  getWebSocketDetails({UID,jKey}, callBack) {
+    // Commonfunctions.readData((err, data) => {
+    //   if (err) {
+    //     callBack(err, null);
+    //   }
+    //   const params = {
+    //     t: "c",
+    //     uid: data.userId,
+    //     actid: data.userId,
+    //     susertoken: data.token,
+    //     source: "API",
+    //   };
+    //   callBack(null, JSON.stringify(params));
+    // });
+    const params = {
+      t: "c",
+      uid: UID,
+      actid: UID,
+      susertoken: jKey,
+      source: "API",
+    };
+    callBack(null, JSON.stringify(params));
   }
   sendWebSocketDetails({ t, k, actid = "" }) {
     const messageData = {
