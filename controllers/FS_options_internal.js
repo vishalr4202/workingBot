@@ -208,6 +208,7 @@ exports.placeFSOPtionsInternal = async (req, res, next) => {
                     ws.on("message", function message(data) {
                         const result = firstock.receiveWebSocketDetails(data);
                         // console.log("message: ", result);
+                        // lastPrice = Number(result?.lp) 
                         if (result?.lp) {
                             if (startPrice == 0) {
                                 startPrice =  Number(result?.lp)
@@ -218,44 +219,48 @@ exports.placeFSOPtionsInternal = async (req, res, next) => {
                                 profit3 = Number(result?.lp) + 80
                                 console.log(startPrice, "startPrice")
                                 console.log(lastPrice,"last")
-                                // placeTrades('S')
-                                // console.log(result?.lp)
-                              
                             }
-                            if ( Number(result?.lp)> lastPrice) {
+                           
+                            if ( Number(result?.lp) > lastPrice) {
                                 lastPrice =  Number(result?.lp)
-                                // stopLoss = result?.lp - 20
-                            }
+                                stopLoss = result?.lp - 30
+                            } 
+                            console.log(Number(result?.lp) )
                             console.log(lastPrice,"last")
                             console.log(stopLoss,"stop")
-                            if (lastPrice >= profit1 && lastPrice < profit2) {
+                            if (Number(result?.lp) >= profit1 && Number(result?.lp) < profit2) {
                                 stopLoss = Number(lastPrice) - 15
                                 console.log(result?.lp, "in profit 1")
                             }
-                            if (lastPrice >= profit2 && lastPrice < profit3) {
+                            if (Number(result?.lp) >= profit2 && Number(result?.lp) < profit3) {
                                 stopLoss = Number(lastPrice) - 20
                                 console.log(result?.lp, "in profit 2")
                             }
-                            if (lastPrice >= profit3) {
+                            if (Number(result?.lp) >= profit3) {
                                 stopLoss = Number(lastPrice) - 10
                                 console.log(result?.lp, "in profit 3")
                             }
-                            if (lastPrice <= stopLoss) {
+                            if (Number(result?.lp) <= stopLoss) {
                                 console.log("exit Trades");
-                                let ws = firstock.initializeWebSocket(2);
-                                ws.on("open", function open() {
-                                    firstock.getWebSocketDetails({ UID: UID, jKey: access_token },(err, disconnectResult) => {
-                                      if (!err) {
-                                        firstock.initialSendWebSocketDetails(ws, disconnectResult, () => {
-                                          ws.send(firstock.unsubscribeFeed(`NFO|${token}`));
-                                        });
-                                        placeTrades('S')
-                                        res.status(200).json({
-                                            message: `orders placed: exit:${result?.lp}, entry:${startPrice}`,
-                                        });
-                                      }
-                                    });
-                                  });
+                                // let ws = firstock.initializeWebSocket(2);
+                                // ws.on("open", function open() {
+                                //     firstock.getWebSocketDetails({ UID: UID, jKey: access_token },(err, disconnectResult) => {
+                                //       if (!err) {
+                                //         firstock.initialSendWebSocketDetails(ws, disconnectResult, () => {
+                                //           ws.send(firstock.unsubscribeFeed(`NFO|${token}`));
+                                //         });
+                                //         placeTrades('S')
+                                //         res.status(200).json({
+                                //             message: `orders placed: exit:${result?.lp}, entry:${startPrice}`,
+                                //         });
+                                //       }
+                                //     });
+                                //   });
+                                ws.send(firstock.unsubscribeFeed(`NFO|${token}`));
+                                placeTrades('S')
+                                res.status(200).json({
+                                    message: `orders placed: exit:${result?.lp}, entry:${startPrice}`,
+                                });
                             }
                         }
                     });
