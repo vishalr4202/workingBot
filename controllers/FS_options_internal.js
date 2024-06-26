@@ -202,6 +202,9 @@ exports.placeFSOPtionsInternal = async (req, res, next) => {
                     let startPrice = 0;
                     let stopLoss = 0;
                     let profit1, profit2, profit3;
+                    let profit1Hit = false;
+                    let profit2Hit = false;
+                    let profit3Hit = false;
                     ws.on("error", function error(error) {
                         console.log(`WebSocket error: ${error}`);
                     });
@@ -213,7 +216,7 @@ exports.placeFSOPtionsInternal = async (req, res, next) => {
                             if (startPrice == 0) {
                                 startPrice =  Number(result?.lp)
                                 lastPrice = Number(result?.lp) 
-                                stopLoss = Number(result?.lp) - 30
+                                stopLoss = Number(result?.lp) - 40
                                 profit1 = Number(result?.lp) + 40
                                 profit2 = Number(result?.lp) + 60
                                 profit3 = Number(result?.lp) + 80
@@ -221,27 +224,70 @@ exports.placeFSOPtionsInternal = async (req, res, next) => {
                                 console.log(lastPrice,"last")
                             }
                            
-                            if ( Number(result?.lp) > lastPrice) {
+                            // if ( Number(result?.lp) > lastPrice && Number(result?.lp) < profit1) {
+                            //     lastPrice =  Number(result?.lp)
+                            //     stopLoss = result?.lp - 50
+                            // } 
+
+                            if ( Number(result?.lp) > lastPrice && !profit1Hit) {
                                 lastPrice =  Number(result?.lp)
-                                stopLoss = result?.lp - 30
+                                stopLoss = result?.lp - 40
                             } 
                             console.log(Number(result?.lp) )
                             console.log(lastPrice,"last")
                             console.log(stopLoss,"stop")
-                            if (Number(result?.lp) >= profit1 && Number(result?.lp) < profit2) {
+
+                            if (Number(result?.lp) >= profit1 && Number(result?.lp) >= lastPrice  && !profit2Hit && !profit3Hit) {
+                                lastPrice =  Number(result?.lp)
                                 stopLoss = Number(lastPrice) - 15
+                                profit1Hit = true;
                                 console.log(result?.lp, "in profit 1")
                             }
-                            if (Number(result?.lp) >= profit2 && Number(result?.lp) < profit3) {
+                            if (Number(result?.lp) >= profit2 &&  Number(result?.lp) >= lastPrice && !profit3Hit) {
+                                lastPrice =  Number(result?.lp)
                                 stopLoss = Number(lastPrice) - 20
+                                profit2Hit = true;
                                 console.log(result?.lp, "in profit 2")
                             }
-                            if (Number(result?.lp) >= profit3) {
+                            if (Number(result?.lp) >= profit3 && Number(result?.lp) >= lastPrice) {
+                                lastPrice =  Number(result?.lp)
                                 stopLoss = Number(lastPrice) - 10
+                                profit3Hit = true;
                                 console.log(result?.lp, "in profit 3")
                             }
+
+
+                            // if (Number(result?.lp) >= profit1 && Number(result?.lp) < profit2) {
+                            //     stopLoss = Number(lastPrice) - 15
+                            //     console.log(result?.lp, "in profit 1")
+                            // }
+                            // if (Number(result?.lp) >= profit2 && Number(result?.lp) < profit3) {
+                            //     stopLoss = Number(lastPrice) - 20
+                            //     console.log(result?.lp, "in profit 2")
+                            // }
+                            // if (Number(result?.lp) >= profit3) {
+                            //     stopLoss = Number(lastPrice) - 10
+                            //     console.log(result?.lp, "in profit 3")
+                            // }
+
+                            // if (Number(result?.lp) >= profit1 && !profit2Hit && !profit3Hit) {
+                            //     stopLoss = Number(lastPrice) - 15
+                            //     profit1Hit = true;
+                            //     console.log(result?.lp, "in profit 1")
+                            // }
+                            // if (Number(result?.lp) >= profit2 && !profit3Hit) {
+                            //     stopLoss = Number(lastPrice) - 20
+                            //     profit2Hit = true;
+                            //     console.log(result?.lp, "in profit 2")
+                            // }
+                            // if (Number(result?.lp) >= profit3) {
+                            //     stopLoss = Number(lastPrice) - 10
+                            //     profit3Hit = true;
+                            //     console.log(result?.lp, "in profit 3")
+                            // }
+
                             if (Number(result?.lp) <= stopLoss) {
-                                console.log("exit Trades");
+                                console.log("----------------------------exited Trades---------------");
                                 // let ws = firstock.initializeWebSocket(2);
                                 // ws.on("open", function open() {
                                 //     firstock.getWebSocketDetails({ UID: UID, jKey: access_token },(err, disconnectResult) => {
